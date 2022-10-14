@@ -1,0 +1,12 @@
+create database Senales;
+use Senales;
+create table Senal(
+`id` INT NOT NULL,
+`Ancho de banda` long not null,
+`Potencia pico` long not null,
+`Temp` long not null,
+primary key (`id`)
+);
+
+ALTER TABLE `Senal`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;

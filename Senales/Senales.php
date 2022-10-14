@@ -1,18 +1,14 @@
 <?php
-include("../Conexion/Conexion.php");
 
-class Señal{
+class Senal{
     public $id;   
     public $BW;
     public $Po_Pico;
-    public $link;
     
-    public function __construct($id, $BW, $Po_Pico,$link){
+    public function __construct(){
         $this->id = 0;
         $this->BW = 0;
         $this->Po_Pico = 0;
-        $a= new Conection();
-        $this->link = $a->Conectar();
     }
 
     public function set_id($algo){
@@ -33,10 +29,6 @@ class Señal{
     public function get_Po_Pico(){
         return $this->Po_Pico;
     }
-    public function Mostrar(){
-        
-    }
-
 
 }
 

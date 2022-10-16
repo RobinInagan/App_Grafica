@@ -2,6 +2,7 @@ create database Senales;
 use Senales;
 create table Senal(
 `id` INT NOT NULL,
+`Frecuencia Central` INT NOT NULL,
 `Ancho de banda` INT not null,
 `Potencia pico` INT not null,
 `Temp` INT not null,
@@ -9,4 +10,4 @@ primary key (`id`)
 );
 
 ALTER TABLE `Senal`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;

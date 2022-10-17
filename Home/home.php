@@ -77,7 +77,8 @@ include("../Senales/Lista_Senales.php");
 <?php
 
 if(isset($_POST['limpiar'])){
-
+    $obj = new CRUD_Senal();
+    $obj->Limpiar();
 }
 
 if(isset($_POST['graficar'])){

@@ -76,6 +76,14 @@ class CRUD_Senal
     }
 
     public function Limpiar(){
-        
+        $sql = "DELETE FROM senal";
+        $result = mysqli_query(Conection::conectar(), $sql) or die("Error al eliminar datos");
+        $sql2 = " ALTER TABLE `Senal` MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;";
+        $result2 = mysqli_query(Conection::conectar(), $sql2) or die("Error al reiniciar contador");
+        echo "
+             <script type='text/javascript'>
+             window.location ='../Home/home.php';
+             </script>
+            ";
     }
 }

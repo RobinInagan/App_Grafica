@@ -8,28 +8,31 @@ include("../Senales/Lista_Senales.php");
 
 <head>
     <link rel="stylesheet" language="javascript" href="../bootstrap-5.0.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="CSS/style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Graficas De Espectro</title>
 
 </head>
 
 <body>
-    <div class="container">
-        <h1>Graficas de Espectro</h1>
-    </div>
-        <div class="col-lg-6">
+     <style type="text/css">
+  body {
+    
+    background-color: #a8a1a0 }
+  </style>
+<h1 class="text-center">Grafica de Espectro</h1>
+        <div align="center" >
             <h3 align="center">Señales</h3>
-            <table class="table caption-top table-hover table-success">
+            <table  class="table table-dark table-striped">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Frecuencia Central</th>
-                        <th scope="col">Ancho de Banda</th>
-                        <th scope="col">Potencia Pico</th>
-                        <th scope="col">Temperatura</th>
+                        <th scope="col">Frecuencia Central (Mhz)</th>
+                        <th scope="col">Ancho de Banda(Mhz)</th>
+                        <th scope="col">Potencia Pico(dBm)</th>
+                        <th scope="col">Temperatura (°k)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,28 +55,44 @@ include("../Senales/Lista_Senales.php");
             </table>
             <tr>
         </div>
-    <form action="../insertar/insertar.php" method="POST">
-
-        <input type="number" name="frecuencia" id="frecuencia" placeholder="Frecuencia Central">
-        <input type="number" name="BW" id="BW" placeholder="Acnho de Banda">
-        <input type="number" name="PP" id="PP" placeholder="Potencia Pico">
+        <div class="row g-3 text-center">
+            <div class="col">
+            <form action="../insertar/insertar.php" method="POST" class="form-group">
+                <div  class="col-auto"><input  type="number" name="frecuencia" id="frecuencia" placeholder="Frecuencia Central" min="1" max="100"></div>
+                <div  class="col-auto"><input  type="number" name="BW" id="BW" placeholder="Acnho de Banda" min="1" max="10"> </div>
+                <div  class="col-auto"><input  type="number" name="PP" id="PP" placeholder="Potencia Pico"></div>                                    
         <?php
-        if($lists!=null){
-            echo" <input disabled  value='".$lists[0]['Temp']."' '>";
-            echo" <input type='hidden' name='Temp' id='Temp' value='".$lists[0]['Temp']."' '>";
-        }else{
-            echo" <input type='number' name='Temp' id='Temp' placeholder='Temperatura'>";
+            if($lists!=null){
+                
+                echo"<div class='col-auto'> <input disabled  value='".$lists[0]['Temp']."' '>";
+                echo" <input  type='hidden' name='Temp' id='Temp' value='".$lists[0]['Temp']."' '></div> ";
+                               
+        }else{            
+            echo"<div class='col-auto'> <input  class='form-control' type='number' name='Temp' id='Temp' placeholder='Temperatura'></div>";
         }
         ?>
-        <input type="submit" name="subir" id="subir" value="Hecho">
-    </form>
-    <form action="./Home.php" method="POST">
-        <input type="submit" name="graficar" id="graficar" value="Graficar">
-    </form>
-    
-    <form action="./Home.php" method="POST">
-        <input type="submit" name="limpiar" id="limpiar" value="Limpiar">
-    </form>
+        <br>
+            <div><input class="btn btn-primary" type="submit" name="subir" id="subir" value="Hecho"></div>
+            <br>
+        </form>
+            </div>
+            <div class="col">
+            <form action="./Home.php" method="POST">
+                <input type="submit" name="graficar" id="graficar" value="Graficar" class="btn btn-primary" >
+            </form>
+            <BR>
+            <form action="./Home.php" method="POST">
+                <input type="submit" name="limpiar" id="limpiar" value="Limpiar" class="btn btn-primary" >
+            </form>
+            </div>            
+        </div>
+        <div class="row g-3 text-center" >
+            <div class="col"></div>
+            <div class="col">
+         
+            </div>
+            <div class="col"></div>            
+        </div>
 <?php
 
 if(isset($_POST['limpiar'])){
@@ -95,6 +114,8 @@ if(isset($_POST['graficar'])){
            $frecuencia=$lista[0]['Frecuencia_Central'];
            $PP=$lista[0]['Potencia_pico']; 
            echo "
+           
+           <div align='center' > 
            <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
            <script type='text/javascript'>
                google.charts.load('current', {
@@ -120,18 +141,24 @@ if(isset($_POST['graficar'])){
                    var options = {
                        chart: {
                            title: 'Visualizacion de señales de radiofrecuencia',
-                           subtitle: 'dBm'
+                           subtitle: 'dBm',
                        },
+                    
                        width: 900,
-                       height: 500
+                       height: 500,
+                       backgroundColor: '#E4E4E4',
+
                    };
        
                    var chart = new google.charts.Line(document.getElementById('linechart_material'));
        
                    chart.draw(data, google.charts.Line.convertOptions(options));
+                   
                }
            </script>
-           <div id='linechart_material' style='width: 900px; height: 500px'></div>
+           <div align='center' id='linechart_material' style='width: 900px; height: 500px;'></div>
+           </div> 
+           
            ";
         }
         if ($t == 2) {            
@@ -144,6 +171,7 @@ if(isset($_POST['graficar'])){
             $PP1=$lista[1]['Potencia_pico'];
             
             echo "
+            <div align='center' > 
             <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
             <script type='text/javascript'>
                 google.charts.load('current', {
@@ -189,6 +217,7 @@ if(isset($_POST['graficar'])){
                 }
             </script>
             <div id='linechart_material' style='width: 900px; height: 500px'></div>
+            </div> 
             ";
         }
 
@@ -207,6 +236,7 @@ if(isset($_POST['graficar'])){
             $PP2=$lista[2]['Potencia_pico'];
             
             echo "
+            <div align='center' > 
             <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
             <script type='text/javascript'>
                 google.charts.load('current', {
@@ -260,6 +290,7 @@ if(isset($_POST['graficar'])){
                 }
             </script>
             <div id='linechart_material' style='width: 900px; height: 500px'></div>
+            </div>
             ";
         }
 
@@ -281,6 +312,7 @@ if(isset($_POST['graficar'])){
             $PP3=$lista[3]['Potencia_pico'];
             
             echo "
+            <div align='center' > 
             <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
             <script type='text/javascript'>
                 google.charts.load('current', {
@@ -342,6 +374,7 @@ if(isset($_POST['graficar'])){
                 }
             </script>
             <div id='linechart_material' style='width: 900px; height: 500px'></div>
+            </div>
             ";
         }
     }

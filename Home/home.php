@@ -12,6 +12,8 @@ include("../Senales/Lista_Senales.php");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript" language="javascript" src="../js/funciones.js"></script>
     <title>Graficas De Espectro</title>
 
 </head>
@@ -30,10 +32,11 @@ include("../Senales/Lista_Senales.php");
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Frecuencia Central (Mhz)</th>
-                    <th scope="col">Ancho de Banda(Mhz)</th>
+                    <th scope="col">Frecuencia Central (MHz)</th>
+                    <th scope="col">Ancho de Banda(MHz)</th>
                     <th scope="col">Potencia Pico(dBm)</th>
                     <th scope="col">Temperatura (°k)</th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,10 +51,26 @@ include("../Senales/Lista_Senales.php");
                     echo "<td>" . $lists[$i]['Ancho_de_banda'] . "</td>";
                     echo "<td>" . $lists[$i]['Potencia_pico'] . "</td>";
                     echo "<td>" . $lists[$i]['Temp'] . "</td>";
+                ?>
+                    <td>
+                        <button class="btn btn-warning" onclick=window.location="../Senales/Editar.php?id=<?php echo $lists[$i]['id']; ?>">
+                            <span class="material-icons">mode_edit</span>
+                        </button>
+                        <?php
+                        if ($lists[$i]['id'] != 1) {
+                        ?>
+
+                            <button class="btn btn-danger" onclick="eliminar('../Senales/Eliminar.php?id=<?php echo $lists[$i]['id']; ?>')">
+                                <span class="material-icons">cancel</span>
+                            </button>
+                        <?php
+                        }
+                        ?>
+                    </td>
+                <?php
                 }
                 ?>
                 </tr>
-
             </tbody>
         </table>
         <tr>
@@ -59,25 +78,25 @@ include("../Senales/Lista_Senales.php");
     <div class="row g-3 text-center">
         <div class="col">
             <form action="" method="POST" class="form-group">
-                <div class="col-auto"><input type="number" name="frecuencia" id="frecuencia" placeholder="Frecuencia Central">
+                <div class="col-auto"><input require type="number" name="frecuencia" id="frecuencia" placeholder="Frecuencia Central">
                     <select id="FC_V" name="FC_V" class="col-auto" aria-label="Default select example">
                         <option selected>Unidad</option>
-                        <option value="Ghz">Ghz</option>
-                        <option value="Mhz">Mhz</option>
-                        <option value="khz">khz</option>
-                        <option value="hz">hz</option>
+                        <option value="GHz">GHz</option>
+                        <option value="MHz">MHz</option>
+                        <option value="kHz">kHz</option>
+                        <option value="Hz">Hz</option>
                     </select>
                 </div>
-                <div class="col-auto"><input type="number" name="BW" id="BW" placeholder="Ancho de Banda">
+                <div class="col-auto"><input require type="number" name="BW" id="BW" placeholder="Ancho de Banda">
                     <select id="BW_V" name="BW_V" class="col-auto" aria-label="Default select example">
                         <option selected>Unidad</option>
-                        <option value="Ghz">Ghz</option>
-                        <option value="Mhz">Mhz</option>
-                        <option value="khz">khz</option>
-                        <option value="hz">hz</option>
+                        <option value="GHz">GHz</option>
+                        <option value="MHz">MHz</option>
+                        <option value="kHz">kHz</option>
+                        <option value="Hz">Hz</option>
                     </select>
                 </div>
-                <div class="col-auto"><input type="number" name="PP" id="PP" placeholder="Potencia Pico">
+                <div class="col-auto"><input require type="number" name="PP" id="PP" placeholder="Potencia Pico">
                     <select id="PP_V" name="PP_V" class="col-auto" aria-label="Default select example">
                         <option selected>Unidad</option>
                         <option value="dBm">dBm</option>
@@ -88,7 +107,7 @@ include("../Senales/Lista_Senales.php");
                 <?php
                 if ($lists != null) {
 
-                    echo "<div class='col-auto'> <input disabled  value='" . $lists[0]['Temp'] . "' '>";
+                    echo "<div class='col-auto'> <input require disabled  value='" . $lists[0]['Temp'] . "' '>";
                     echo " <input  type='hidden' name='Temp' id='Temp' value='" . $lists[0]['Temp'] . "' '></div> ";
                 } else {
                     echo "<div class='col-auto'> <input type='number' name='Temp' id='Temp' placeholder='Temperatura'></div>";
@@ -120,16 +139,16 @@ include("../Senales/Lista_Senales.php");
     function Cambio_MHZ($valor, $base)
     {
         switch ($base) {
-            case "Ghz":
+            case "GHz":
                 return pow(10, 3) * $valor;
                 break;
-            case "Mhz":
+            case "MHz":
                 return $valor;
                 break;
-            case "khz":
+            case "kHz":
                 return pow(10, -3) * $valor;
                 break;
-            case "hz":
+            case "Hz":
                 return pow(10, -6) * $valor;
                 break;
         }
@@ -169,8 +188,7 @@ include("../Senales/Lista_Senales.php");
                 if ($Temperatura > 0 && $Temperatura <= 373) {
 
                     $lists = new CRUD_Senal();
-                    $lists->Insert($frecuencia,$BW,$PP,$Temperatura);
-
+                    $lists->Insert($frecuencia, $BW, $PP, $Temperatura);
                 } else {
                     echo "<script>
                         alert('Error, la temperatura es menor que 0 o mayor que 373 °k')
@@ -203,10 +221,10 @@ include("../Senales/Lista_Senales.php");
         } else {
             $t = $lista[count($lista) - 1]['id'];
             $bwm = $obj->SenalesBW();
-            if($t>1){
-                $piso_ruido = log10(((pow(10, -23) * 1.38) * ((pow(10,6)*$bwm[0]['Ancho_de_banda']) / (10)) * ($bwm[0]['Temp'])) / (pow(10, -3) * 1)) * 10;
-            }else{
-                $piso_ruido = log10(((pow(10, -23) * 1.38) * ((pow(10,6)*$bwm[0]['Ancho_de_banda'])) * ($bwm[0]['Temp'])) / (pow(10, -3) * 1)) * 10;
+            if ($t > 1) {
+                $piso_ruido = log10(((pow(10, -23) * 1.38) * ((pow(10, 6) * $bwm[0]['Ancho_de_banda']) / (10)) * ($bwm[0]['Temp'])) / (pow(10, -3) * 1)) * 10;
+            } else {
+                $piso_ruido = log10(((pow(10, -23) * 1.38) * ((pow(10, 6) * $bwm[0]['Ancho_de_banda'])) * ($bwm[0]['Temp'])) / (pow(10, -3) * 1)) * 10;
             }
             if ($t == 1) {
                 $BW = $lista[0]['Ancho_de_banda'];

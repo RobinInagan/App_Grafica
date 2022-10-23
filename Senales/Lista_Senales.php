@@ -78,12 +78,49 @@ class CRUD_Senal
     public function Limpiar(){
         $sql = "DELETE FROM senal";
         $result = mysqli_query(Conection::conectar(), $sql) or die("Error al eliminar datos");
-        $sql2 = " ALTER TABLE `Senal` MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;";
+        $sql2 = " ALTER TABLE `Senal` MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
         $result2 = mysqli_query(Conection::conectar(), $sql2) or die("Error al reiniciar contador");
         echo "
              <script type='text/javascript'>
              window.location ='../Home/home.php';
              </script>
             ";
+    }
+
+    public function Eliminar($id){
+        $sql = "DELETE FROM senal where id = $id";
+        $result = mysqli_query(Conection::conectar(), $sql) or die("Error al eliminar datos");
+        $id=$id-1;
+        $sql2 = " ALTER TABLE `Senal` MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT= $id;";
+        $result2 = mysqli_query(Conection::conectar(), $sql2) or die("Error al reiniciar contador");
+        echo "
+             <script type='text/javascript'>
+             window.location ='../Home/home.php';
+             </script>
+            ";
+    }
+
+    public function update($id,$frecuencia,$BW,$PP,$temp){
+        $sql="UPDATE `senal` SET `Frecuencia_Central`= $frecuencia,`Ancho_de_banda`= $BW ,`Potencia_pico`= $PP,`Temp`= $temp WHERE id =$id";        
+        $result = mysqli_query(Conection::conectar(), $sql) or die ("Error al actualizar datos");
+        $sql2="UPDATE `senal` SET `Temp`='$temp'";
+        $result2 = mysqli_query(Conection::conectar(), $sql2) or die("Error al cambiar temp");
+        echo "
+             <script type='text/javascript'>
+             window.location ='../Home/home.php';
+             </script>
+            ";
+    }
+
+    public function Mostrarid($id)
+    {
+        $this->conexion = new Conection();
+        $lista = array();
+        $sql = "SELECT * FROM Senal where id = $id ";
+        $result = mysqli_query(Conection::conectar(), $sql) or die("Error en al buscar por id");
+        while ($r = mysqli_fetch_array($result)) {
+            $lista[] = $r;
+        }
+        return $lista;
     }
 }

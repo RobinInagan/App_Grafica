@@ -15,9 +15,9 @@ class CRUD_Senal
              </script>
             ";
         } else {
-            echo "Ya hay 4 señales";
             echo "
              <script type='text/javascript'>
+             alert('Ya hay 4 señales');
              window.location ='../Home/home.php';
              </script>
             ";
@@ -43,19 +43,20 @@ class CRUD_Senal
         while ($r = mysqli_fetch_array($result)) {
             $lista[] = $r;
         }
-        if($lista!= null ){
-            if ( $lista[count($lista)-1]['id'] == 4) {
+
+        if ($lista == null) {
+            return true;
+        } else {
+            if (count($lista) == 4) {
                 return false;
             } else {
                 return true;
             }
-        }else {
-            return true;
         }
-        
     }
 
-    public function SenalesORG(){
+    public function SenalesORG()
+    {
         $sql = "SELECT * FROM Senal ORDER by 'Frecuencia_Central'";
         $señal = array();
         $result = mysqli_query(Conection::conectar(), $sql) or die("Error al consultar buscar id");
@@ -65,7 +66,8 @@ class CRUD_Senal
         return $señal;
     }
 
-    public function SenalesBW(){
+    public function SenalesBW()
+    {
         $sql = "SELECT * FROM Senal order by senal.Ancho_de_banda ASC;";
         $señal = array();
         $result = mysqli_query(Conection::conectar(), $sql) or die("Error al consultar buscar id");
@@ -75,7 +77,8 @@ class CRUD_Senal
         return $señal;
     }
 
-    public function Limpiar(){
+    public function Limpiar()
+    {
         $sql = "DELETE FROM senal";
         $result = mysqli_query(Conection::conectar(), $sql) or die("Error al eliminar datos");
         $sql2 = " ALTER TABLE `Senal` MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
@@ -87,10 +90,11 @@ class CRUD_Senal
             ";
     }
 
-    public function Eliminar($id){
+    public function Eliminar($id)
+    {
         $sql = "DELETE FROM senal where id = $id";
         $result = mysqli_query(Conection::conectar(), $sql) or die("Error al eliminar datos");
-        $id=$id-1;
+        $id = $id - 1;
         $sql2 = " ALTER TABLE `Senal` MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT= $id;";
         $result2 = mysqli_query(Conection::conectar(), $sql2) or die("Error al reiniciar contador");
         echo "
@@ -100,10 +104,11 @@ class CRUD_Senal
             ";
     }
 
-    public function update($id,$frecuencia,$BW,$PP,$temp){
-        $sql="UPDATE `senal` SET `Frecuencia_Central`= $frecuencia,`Ancho_de_banda`= $BW ,`Potencia_pico`= $PP,`Temp`= $temp WHERE id =$id";        
-        $result = mysqli_query(Conection::conectar(), $sql) or die ("Error al actualizar datos");
-        $sql2="UPDATE `senal` SET `Temp`='$temp'";
+    public function update($id, $frecuencia, $BW, $PP, $temp)
+    {
+        $sql = "UPDATE `senal` SET `Frecuencia_Central`= $frecuencia,`Ancho_de_banda`= $BW ,`Potencia_pico`= $PP,`Temp`= $temp WHERE id =$id";
+        $result = mysqli_query(Conection::conectar(), $sql) or die("Error al actualizar datos");
+        $sql2 = "UPDATE `senal` SET `Temp`='$temp'";
         $result2 = mysqli_query(Conection::conectar(), $sql2) or die("Error al cambiar temp");
         echo "
              <script type='text/javascript'>

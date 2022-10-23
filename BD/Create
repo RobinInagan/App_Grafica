@@ -2,10 +2,10 @@ create database Senales;
 use Senales;
 create table Senal(
 `id` INT NOT NULL,
-`Frecuencia_Central` INT NOT NULL,
-`Ancho_de_banda` INT not null,
-`Potencia_pico` INT not null,
-`Temp` INT not null,
+`Frecuencia_Central` FLOAT NOT NULL,
+`Ancho_de_banda` FLOAT not null,
+`Potencia_pico` FLOAT not null,
+`Temp` FLOAT not null,
 primary key (`id`)
 );
 

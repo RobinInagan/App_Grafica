@@ -8,24 +8,44 @@ include("../Senales/Lista_Senales.php");
 
 <head>
     <link rel="stylesheet" language="javascript" href="../bootstrap-5.0.2-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="../CSS/style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script type="text/javascript" language="javascript" src="../js/funciones.js"></script>
     <title>Graficas De Espectro</title>
-
+    <link rel="icon" type="image/x-icon" href="../images/logoUD.png">
 </head>
 
-<body>
+<body >
     <style type="text/css">
         body {
-
             background-color: #a8a1a0
         }
     </style>
-    <h1 class="text-center">Grafica de Espectro</h1>
+    <div class="row g-3 text-center">
+        <div class="col">
+            <picture>
+                <source srcset="../images/logoUD.png">
+                <img src="../images/logoUD.png" alt="Logo UD" style="width: 175px;;height: 175px;;">
+            </picture>
+        </div>
+        <div class="col">
+            <br>
+            <br>
+            <br>
+            <h1 class="text-center">Grafica de Espectro</h1>
+        </div>
+        <div class="col">
+            <br>
+            <br>
+            <h5>Robinson Stiven Inagan Ochoa</h5>
+            <h5>Juan David Sosa Suarez</h5>
+            <h5>Jerson Eliud Henao Sanchez</h5>
+        </div>
+    </div>
+
     <div align="center">
         <h3 align="center">Señales</h3>
         <table class="table table-dark table-striped">
@@ -46,7 +66,7 @@ include("../Senales/Lista_Senales.php");
 
                 for ($i = 0; $i < count($lists); $i++) {
                     echo "<tr>";
-                    echo "<td>" . $lists[$i]['id'] . "</td>";
+                    echo "<td>" . $i + 1 . "</td>";
                     echo "<td>" . $lists[$i]['Frecuencia_Central'] . "</td>";
                     echo "<td>" . $lists[$i]['Ancho_de_banda'] . "</td>";
                     echo "<td>" . $lists[$i]['Potencia_pico'] . "</td>";
@@ -56,16 +76,9 @@ include("../Senales/Lista_Senales.php");
                         <button class="btn btn-warning" onclick=window.location="../Senales/Editar.php?id=<?php echo $lists[$i]['id']; ?>">
                             <span class="material-icons">mode_edit</span>
                         </button>
-                        <?php
-                        if ($lists[$i]['id'] != 1) {
-                        ?>
-
-                            <button class="btn btn-danger" onclick="eliminar('../Senales/Eliminar.php?id=<?php echo $lists[$i]['id']; ?>')">
-                                <span class="material-icons">cancel</span>
-                            </button>
-                        <?php
-                        }
-                        ?>
+                        <button class="btn btn-danger" onclick="eliminar('../Senales/Eliminar.php?id=<?php echo $lists[$i]['id']; ?>')">
+                            <span class="material-icons">cancel</span>
+                        </button>
                     </td>
                 <?php
                 }
@@ -78,8 +91,8 @@ include("../Senales/Lista_Senales.php");
     <div class="row g-3 text-center">
         <div class="col">
             <form action="" method="POST" class="form-group">
-                <div class="col-auto"><input require type="number" name="frecuencia" id="frecuencia" placeholder="Frecuencia Central">
-                    <select id="FC_V" name="FC_V" class="col-auto" aria-label="Default select example">
+                <div class="col-auto"><input required type="number" name="frecuencia" id="frecuencia" placeholder="Frecuencia Central">
+                    <select id="FC_V" name="FC_V" class="col-auto" aria-label="Default select example" required>
                         <option selected>Unidad</option>
                         <option value="GHz">GHz</option>
                         <option value="MHz">MHz</option>
@@ -87,8 +100,8 @@ include("../Senales/Lista_Senales.php");
                         <option value="Hz">Hz</option>
                     </select>
                 </div>
-                <div class="col-auto"><input require type="number" name="BW" id="BW" placeholder="Ancho de Banda">
-                    <select id="BW_V" name="BW_V" class="col-auto" aria-label="Default select example">
+                <div class="col-auto"><input required type="number" name="BW" id="BW" placeholder="Ancho de Banda">
+                    <select id="BW_V" name="BW_V" class="col-auto" aria-label="Default select example" required>
                         <option selected>Unidad</option>
                         <option value="GHz">GHz</option>
                         <option value="MHz">MHz</option>
@@ -96,8 +109,8 @@ include("../Senales/Lista_Senales.php");
                         <option value="Hz">Hz</option>
                     </select>
                 </div>
-                <div class="col-auto"><input require type="number" name="PP" id="PP" placeholder="Potencia Pico">
-                    <select id="PP_V" name="PP_V" class="col-auto" aria-label="Default select example">
+                <div class="col-auto"><input required type="number" name="PP" id="PP" placeholder="Potencia Pico">
+                    <select id="PP_V" name="PP_V" class="col-auto" aria-label="Default select example" required>
                         <option selected>Unidad</option>
                         <option value="dBm">dBm</option>
                         <option value="dBW">dBW</option>
@@ -218,8 +231,11 @@ include("../Senales/Lista_Senales.php");
         $obj = new CRUD_Senal();
         $lista = $obj->SenalesORG();
         if ($lista == null) {
+            echo "<script>
+                alert('Error, no se encontraron frecuencia');                
+                </script>";
         } else {
-            $t = $lista[count($lista) - 1]['id'];
+            $t = count($lista);
             $bwm = $obj->SenalesBW();
             if ($t > 1) {
                 $piso_ruido = log10(((pow(10, -23) * 1.38) * ((pow(10, 6) * $bwm[0]['Ancho_de_banda']) / (10)) * ($bwm[0]['Temp'])) / (pow(10, -3) * 1)) * 10;
@@ -254,6 +270,7 @@ include("../Senales/Lista_Senales.php");
                     [" . ($frecuencia + ($BW / 2)) . ", " . ($PP - 3) . "," . $piso_ruido . "],
                     [" . ($frecuencia + ($BW)) . ", " . $piso_ruido . "," . $piso_ruido . "],
                    ]);
+                   
 
                    var options = {
                        chart: {

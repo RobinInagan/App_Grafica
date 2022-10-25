@@ -47,7 +47,7 @@ $lists = $sig->Mostrarid($_GET['id']);
                     for ($i = 0; $i < count($lists); $i++) {
                         echo "<tr>";
                         echo "<td>" . $lists[$i]['id'] . "</td>";
-                        echo "<td> <input require type='number' name='frecuencia' id='frecuencia' value='" . $lists[$i]['Frecuencia_Central'] . "'>
+                        echo "<td> <input require step='any' type='number' name='frecuencia' id='frecuencia' value='" . $lists[$i]['Frecuencia_Central'] . "'>
                     <select id='FC_V' name='FC_V' class='col-auto' aria-label='Default select example'>
                         <option selected>Unidad</option>
                         <option value='GHz'>GHz</option>
@@ -56,7 +56,7 @@ $lists = $sig->Mostrarid($_GET['id']);
                         <option value='Hz'>Hz</option>
                     </select>
                     </td>";
-                        echo "<td> <input require type='number' name='BW' id='BW' value='" . $lists[$i]['Ancho_de_banda'] . "'>
+                        echo "<td> <input require step='any' type='number' name='BW' id='BW' value='" . $lists[$i]['Ancho_de_banda'] . "'>
                     <select id='BW_V' name='BW_V' class='col-auto' aria-label='Default select example'>
                         <option selected>Unidad</option>
                         <option value='GHz'>GHz</option>
@@ -65,7 +65,7 @@ $lists = $sig->Mostrarid($_GET['id']);
                         <option value='Hz'>Hz</option>
                     </select>
                     </td>";
-                        echo "<td> <input require type='number' name='PP' id='PP' value='" . $lists[$i]['Potencia_pico'] . "'>
+                        echo "<td> <input require step='any' type='number' name='PP' id='PP' value='" . $lists[$i]['Potencia_pico'] . "'>
                     <select id='PP_V' name='PP_V' class='col-auto' aria-label='Default select example'>
                         <option selected>Unidad</option>
                         <option value='dBm'>dBm</option>

@@ -91,7 +91,7 @@ include("../Senales/Lista_Senales.php");
     <div class="row g-3 text-center">
         <div class="col">
             <form action="" method="POST" class="form-group">
-                <div class="col-auto"><input required type="number" name="frecuencia" id="frecuencia" placeholder="Frecuencia Central">
+                <div class="col-auto"><input required  step="any" type="number"name="frecuencia" id="frecuencia" placeholder="Frecuencia Central">
                     <select id="FC_V" name="FC_V" class="col-auto" aria-label="Default select example" required>
                         <option selected>Unidad</option>
                         <option value="GHz">GHz</option>
@@ -100,7 +100,7 @@ include("../Senales/Lista_Senales.php");
                         <option value="Hz">Hz</option>
                     </select>
                 </div>
-                <div class="col-auto"><input required type="number" name="BW" id="BW" placeholder="Ancho de Banda">
+                <div class="col-auto"><input required step="any" type="number" name="BW" id="BW" placeholder="Ancho de Banda">
                     <select id="BW_V" name="BW_V" class="col-auto" aria-label="Default select example" required>
                         <option selected>Unidad</option>
                         <option value="GHz">GHz</option>
@@ -109,12 +109,13 @@ include("../Senales/Lista_Senales.php");
                         <option value="Hz">Hz</option>
                     </select>
                 </div>
-                <div class="col-auto"><input required type="number" name="PP" id="PP" placeholder="Potencia Pico">
+                <div class="col-auto"><input required step="any" type="number" name="PP" id="PP" placeholder="Potencia Pico">
                     <select id="PP_V" name="PP_V" class="col-auto" aria-label="Default select example" required>
                         <option selected>Unidad</option>
                         <option value="dBm">dBm</option>
                         <option value="dBW">dBW</option>
                         <option value="dBk">dBk</option>
+                        <option value="W">W</option>
                     </select>
                 </div>
                 <?php
